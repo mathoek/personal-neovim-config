@@ -17,6 +17,8 @@ return {
       { "<leader>Er", "<cmd>Neotree reveal<cr>", desc = "Reveal Current File" },
       { "<leader>Eb", "<cmd>Neotree buffers<cr>", desc = "Buffer Explorer" },
       { "<leader>Eg", "<cmd>Neotree git_status<cr>", desc = "Git Explorer" },
+      -- Nieuwe actie: Overzicht van functies en klassen in het huidige bestand
+      { "<leader>Es", "<cmd>Neotree document_symbols<cr>", desc = "Document Symbols" },
     },
     opts = {
       close_if_last_window = true, -- Sluit Neovim als Neo-tree het enige venster is
@@ -24,7 +26,39 @@ return {
       enable_git_status = true,
       enable_diagnostics = true,
 
+      -- Expliciet de bronnen definiëren
+      sources = {
+        "filesystem",
+        "buffers",
+        "git_status",
+        "document_symbols", 
+      },
+
+      -- Configuratie voor de symbolen (functies, klassen, etc.)
+      document_symbols = {
+        follow_cursor = true, -- Selecteer automatisch het symbool waar je cursor staat
+        client_filters = "first",
+        renderers = {
+          root = {
+            {"indent"},
+            {"icon", default="C" },
+            {"name", zindex = 10},
+          },
+          symbol = {
+            {"indent", with_expanders = true},
+            {"kind_icon", default="?" },
+            {"container",
+              content = {
+                {"name", zindex = 10},
+                {"kind_name", zindex = 20, align = "right"},
+              }
+            }
+          },
+        }
+      },
+
       filesystem = {
+	  hijack_netrw_behavior = "open_default", -- "open_default", "disabled", or "open_current"
         filtered_items = {
           visible = false, -- Toon verborgen bestanden niet standaard
           hide_dotfiles = false,
@@ -53,6 +87,9 @@ return {
           ["l"] = "open",       -- Gebruik 'l' om te openen (HJKL stijl)
           ["h"] = "close_node", -- Gebruik 'h' om in te klappen
           ["P"] = { "toggle_preview", config = { use_float = true } },
+	  ["s"] = "open_vsplit",  -- Opens file in a vertical split
+	  ["S"] = "open_split",   -- Opens file in a horizontal split
+	  ["t"] = "open_tabnew",  -- Opens file in a new tab
         },
       },
 
