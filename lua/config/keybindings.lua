@@ -22,4 +22,6 @@ vim.keymap.set("n", "<leader>q", ":bd<CR>", { desc = "Close buffer" })
 vim.keymap.set("n", "<leader>Q", ":qa<CR>", { desc = "Close all buffers" })
 vim.keymap.set("n", "<leader>vs", ":vsplit<CR>", { desc = "Vertical split" })
 
-
+-- Use Tab and Shift-tab to adjust indentation in V-mode
+vim.keymap.set("v", "<Tab>", ">gv")
+vim.keymap.set("v", "<S-Tab>", "<gv")
