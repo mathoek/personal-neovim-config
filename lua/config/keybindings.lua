@@ -14,7 +14,7 @@ vim.keymap.set("n", "<leader>py", function()
 
   -- 3. "Shellescape" it (automatically wraps it in quotes for the shell)
   local cmd_string = "python3 " .. vim.fn.shellescape(file)
-  
+
   -- 4. Send directly to ToggleTerm
   -- The arguments are: cmd, id, size, dir, direction
   require("toggleterm").exec(cmd_string, 1, nil, nil, "float")
@@ -23,4 +23,6 @@ vim.keymap.set("n", "<leader>q", ":bd<CR>", { desc = "Close buffer" })
 vim.keymap.set("n", "<leader>Q", ":qa<CR>", { desc = "Close all buffers" })
 vim.keymap.set("n", "<leader>vs", ":vsplit<CR>", { desc = "Vertical split" })
 
+-- Keymap for replace of found text
+vim.keymap.set('n', '<leader>rn', vim.lsp.buf.rename, { desc = '[R]e[n]ame Variable' })
 
