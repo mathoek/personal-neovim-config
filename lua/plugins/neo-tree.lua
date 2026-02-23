@@ -17,7 +17,6 @@ return {
       { "<leader>Er", "<cmd>Neotree reveal<cr>", desc = "Reveal Current File" },
       { "<leader>Eb", "<cmd>Neotree buffers<cr>", desc = "Buffer Explorer" },
       { "<leader>Eg", "<cmd>Neotree git_status<cr>", desc = "Git Explorer" },
-      -- Nieuwe actie: Overzicht van functies en klassen in het huidige bestand
       { "<leader>Es", "<cmd>Neotree document_symbols<cr>", desc = "Document Symbols" },
     },
     opts = {
@@ -58,6 +57,13 @@ return {
       },
 
       filesystem = {
+	-- 1. Enable the 2-way binding between Neovim's CWD and Neo-tree's root
+        bind_to_cwd = true, 
+        -- 2. Tell it to update the global working directory (not just the current window/tab)
+        cwd_target = {
+          sidebar = "global", 
+          current = "global"
+        },
 	  hijack_netrw_behavior = "open_default", -- "open_default", "disabled", or "open_current"
         filtered_items = {
           visible = false, -- Toon verborgen bestanden niet standaard
@@ -90,9 +96,24 @@ return {
 	  ["s"] = "open_vsplit",  -- Opens file in a vertical split
 	  ["S"] = "open_split",   -- Opens file in a horizontal split
 	  ["t"] = "open_tabnew",  -- Opens file in a new tab
+	  ["T"] = "open_terminal"
         },
       },
-
+    commands = {
+        open_terminal = function(state)
+          local node = state.tree:get_node()
+          if not node then return end
+          local path = node.path
+          if node.type ~= "directory" then
+            path = vim.fn.fnamemodify(path, ":h")
+          end
+          -- Safely escape the path for the shell (handles spaces, quotes, etc.)
+          local safe_path = vim.fn.shellescape(path)
+          -- Use ToggleTerm's direct Lua API instead of a string command
+          -- Syntax: exec(command, terminal_id, size, direction)
+          require("toggleterm").exec("cd " .. safe_path, 1, nil, "horizontal")
+        end,
+      },
       default_component_configs = {
         indent = {
           with_markers = true,
