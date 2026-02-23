@@ -1,0 +1,2 @@
+# Ignore the lazy-lock.json. It gets in the way of pulling the newest version of my config.
+lazy-lock.json
