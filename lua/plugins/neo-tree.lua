@@ -99,19 +99,37 @@ return {
 	  ["T"] = "open_terminal"
         },
       },
-    commands = {
+      commands = {
         open_terminal = function(state)
           local node = state.tree:get_node()
-          if not node then return end
+          if not node or not node.path then return end
+          
           local path = node.path
           if node.type ~= "directory" then
             path = vim.fn.fnamemodify(path, ":h")
           end
-          -- Safely escape the path for the shell (handles spaces, quotes, etc.)
-          local safe_path = vim.fn.shellescape(path)
-          -- Use ToggleTerm's direct Lua API instead of a string command
-          -- Syntax: exec(command, terminal_id, size, direction)
-          require("toggleterm").exec("cd " .. safe_path, 1, nil, "horizontal")
+          
+          -- Normalize slashes for Windows
+          path = path:gsub("\\", "/")
+          
+          local term_manager = require("toggleterm.terminal")
+          local term = term_manager.get(1)
+          
+          if term then
+            -- Terminal #1 already exists. Make sure it is visible, then send 'cd'
+            if not term:is_open() then
+              term:toggle()
+            end
+            term:send('cd "' .. path .. '"')
+          else
+            -- Terminal #1 does not exist. Create it natively rooted in the path.
+            local new_term = term_manager.Terminal:new({
+              id = 1,
+              dir = path,
+              direction = "horizontal",
+            })
+            new_term:toggle()
+          end
         end,
       },
       default_component_configs = {
