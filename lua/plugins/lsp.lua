@@ -15,6 +15,8 @@ return {
         ensure_installed = {
             "pyright", -- Python
             "lua_ls",  -- Lua
+	    "tailwindcss", -- Tailwind
+	    "ts_ls"
         },
 
         -- AUTOMATIC SETUP HANDLER

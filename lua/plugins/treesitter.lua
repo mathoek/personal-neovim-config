@@ -12,12 +12,12 @@ return {
       })
 
       -- 2. Install the 'brains' for Python
-      ts.install({ "python", "lua", "vim", "vimdoc" })
+      ts.install({ "python", "lua", "vim", "vimdoc", "javascript", "css" })
 
       -- 3. The "VS Code" Magic: Enable Highlighting manually via Autocmd
       -- This is the method recommended in the new README section 'Highlighting'
       vim.api.nvim_create_autocmd("FileType", {
-        pattern = { "python", "lua" },
+        pattern = { "python", "lua", "javascript", "css"},
         callback = function()
           vim.treesitter.start()
         end,
