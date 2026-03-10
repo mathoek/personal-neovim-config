@@ -3,7 +3,6 @@ vim.g.mapleader = " "
 vim.g.maplocalleader = " "
 require('config.lazy')
 require('config.keybindings')
-vim.opt.clipboard = "unnamedplus"
 local is_windows = vim.loop.os_uname().version:match("Windows")
 if is_windows then
     -- Windows specific settings
@@ -16,6 +15,5 @@ if is_windows then
     vim.opt.shellquote = ""
     vim.opt.shellxquote = ""
 else
-    vim.g.clipboard = "xclip"
+    vim.opt.clipboard = "unnamedplus"
 end
-
