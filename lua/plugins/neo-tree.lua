@@ -12,7 +12,6 @@ return {
     keys = {
       -- De hoofdactie: Directe toggle
       { "<leader>e", "<cmd>Neotree toggle<cr>", desc = "Explorer (Toggle)" },
-      -- Extra opties onder de hoofdletter 'E' (geen conflict met kleine 'e')
       { "<leader>Ef", "<cmd>Neotree float<cr>", desc = "Floating Explorer" },
       { "<leader>Er", "<cmd>Neotree reveal<cr>", desc = "Reveal Current File" },
       { "<leader>Eb", "<cmd>Neotree buffers<cr>", desc = "Buffer Explorer" },
